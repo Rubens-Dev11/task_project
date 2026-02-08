@@ -1,0 +1,22 @@
+INFO 2025-08-26 17:40:44,819 views 8616 11980 Modèles disponibles : ['llama3.1:8b']
+WARNING 2025-08-26 17:40:44,820 views 8616 11980 Modèle configuré non trouvé, utilisation de llama3.1:8b
+INFO 2025-08-26 17:40:45,141 views 8616 11980 Utilisation du modèle : llama3.1:8b
+INFO 2025-08-26 19:17:02,408 views 8616 10120 Modèles disponibles : ['llama3.1:8b']
+WARNING 2025-08-26 19:17:02,409 views 8616 10120 Modèle configuré non trouvé, utilisation de llama3.1:8b
+INFO 2025-08-26 19:17:02,723 views 8616 10120 Utilisation du modèle : llama3.1:8b
+INFO 2025-08-28 14:17:29,933 views 2988 11800 Modèles disponibles : ['llama3.1:8b']
+WARNING 2025-08-28 14:17:29,934 views 2988 11800 Modèle configuré non trouvé, utilisation de llama3.1:8b
+INFO 2025-08-28 14:17:30,270 views 2988 11800 Utilisation du modèle : llama3.1:8b
+INFO 2025-09-27 01:27:54,668 views 11560 2852 Modèles disponibles : ['llama3.1:8b']
+WARNING 2025-09-27 01:27:54,673 views 11560 2852 Modèle configuré non trouvé, utilisation de llama3.1:8b
+INFO 2025-09-27 01:27:55,164 views 11560 2852 Utilisation du modèle : llama3.1:8b
+INFO 2025-09-27 01:28:24,808 views 11560 1616 Modèles disponibles : ['llama3.1:8b']
+WARNING 2025-09-27 01:28:24,809 views 11560 1616 Modèle configuré non trouvé, utilisation de llama3.1:8b
+INFO 2025-09-27 01:28:25,284 views 11560 1616 Utilisation du modèle : llama3.1:8b
+INFO 2025-10-24 11:39:57,408 views 7924 7376 Modèles disponibles : ['llama3.1:8b']
+WARNING 2025-10-24 11:39:57,418 views 7924 7376 Modèle configuré non trouvé, utilisation de llama3.1:8b
+INFO 2025-10-24 11:39:57,833 views 7924 7376 Utilisation du modèle : llama3.1:8b
+ERROR 2025-10-24 11:40:07,851 views 7924 7376 Erreur génération insights : llama runner process has terminated: exit status 2
+ERROR 2026-02-07 20:57:14,955 views 3368 17468 Impossible de se connecter à Ollama : HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/tags (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001E793B43E00>: Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée'))
+ERROR 2026-02-07 20:58:01,176 views 3368 17468 Impossible de se connecter à Ollama : HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/tags (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001E79529BD90>: Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée'))
+ERROR 2026-02-07 20:58:16,807 views 3368 17468 Impossible de se connecter à Ollama : HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/tags (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001E7941E8690>: Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée'))

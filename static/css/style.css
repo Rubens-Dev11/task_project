@@ -1,0 +1,635 @@
+/* ===== STYLES PERSONNALISÉS ===== */
+
+/* Variables CSS */
+:root {
+    --primary-color: #007bff;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --info-color: #17a2b8;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    
+    --priority-low: #28a745;
+    --priority-medium: #ffc107;
+    --priority-high: #fd7e14;
+    --priority-urgent: #dc3545;
+    
+    --shadow-sm: 0 .125rem .25rem rgba(0,0,0,.075);
+    --shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+    --shadow-lg: 0 1rem 3rem rgba(0,0,0,.175);
+}
+
+/* ===== STYLES GÉNÉRAUX ===== */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    line-height: 1.6;
+}
+
+/* Navigation */
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.navbar-nav .nav-link {
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* ===== STYLES DES CARTES DE TÂCHES ===== */
+
+.task-card {
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    box-shadow: var(--shadow-sm);
+}
+
+.task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+/* Priorités des tâches */
+.task-card.priority-low {
+    border-left: 4px solid var(--priority-low);
+}
+
+.task-card.priority-medium {
+    border-left: 4px solid var(--priority-medium);
+}
+
+.task-card.priority-high {
+    border-left: 4px solid var(--priority-high);
+}
+
+.task-card.priority-urgent {
+    border-left: 4px solid var(--priority-urgent);
+    animation: pulse-urgent 2s infinite;
+}
+
+@keyframes pulse-urgent {
+    0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+}
+
+/* Badges de priorité */
+.badge-priority-low {
+    background-color: var(--priority-low) !important;
+}
+
+.badge-priority-medium {
+    background-color: var(--priority-medium) !important;
+    color: #212529 !important;
+}
+
+.badge-priority-high {
+    background-color: var(--priority-high) !important;
+}
+
+.badge-priority-urgent {
+    background-color: var(--priority-urgent) !important;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0.7; }
+}
+
+/* ===== STYLES DES FORMULAIRES ===== */
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.form-control.is-invalid {
+    border-color: var(--danger-color);
+    background-image: none;
+}
+
+.invalid-feedback {
+    font-size: 0.875rem;
+}
+
+/* Labels des formulaires */
+.form-label {
+    font-weight: 600;
+    color: var(--white-color);
+    margin-bottom: 0.5rem;
+}
+
+/* ===== STYLES DES BOUTONS ===== */
+
+.btn {
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-outline-primary:hover,
+.btn-outline-secondary:hover,
+.btn-outline-success:hover,
+.btn-outline-danger:hover,
+.btn-outline-warning:hover,
+.btn-outline-info:hover {
+    transform: translateY(-1px);
+}
+
+/* ===== STYLES DES INSIGHTS IA ===== */
+
+.insights-analysis {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--dark-color);
+}
+
+.insights-analysis h1,
+.insights-analysis h2,
+.insights-analysis h3,
+.insights-analysis h4 {
+    color: var(--primary-color);
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.insights-analysis strong {
+    color: var(--dark-color);
+}
+
+.insights-analysis ul,
+.insights-analysis ol {
+    margin-left: 1.5rem;
+}
+
+.insights-analysis li {
+    margin-bottom: 0.5rem;
+}
+
+/* ===== STYLES DES STATISTIQUES ===== */
+
+.card.bg-primary,
+.card.bg-success,
+.card.bg-warning,
+.card.bg-info,
+.card.bg-danger {
+    border: none;
+    box-shadow: var(--shadow-sm);
+}
+
+.card.bg-primary:hover,
+.card.bg-success:hover,
+.card.bg-warning:hover,
+.card.bg-info:hover,
+.card.bg-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+/* ===== STYLES DE LA PAGINATION ===== */
+
+.pagination .page-link {
+    color: var(--primary-color);
+    border: 1px solid #dee2e6;
+    font-weight: 500;
+}
+
+.pagination .page-link:hover {
+    background-color: var(--light-color);
+    border-color: var(--primary-color);
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* ===== STYLES DES ALERTS ===== */
+
+.alert {
+    border: none;
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+}
+
+.alert-info {
+    background-color: #e3f2fd;
+    color: #0277bd;
+    border-left: 4px solid var(--info-color);
+}
+
+.alert-success {
+    background-color: #e8f5e8;
+    color: #1b5e20;
+    border-left: 4px solid var(--success-color);
+}
+
+.alert-warning {
+    background-color: #fff8e1;
+    color: #e65100;
+    border-left: 4px solid var(--warning-color);
+}
+
+.alert-danger {
+    background-color: #ffebee;
+    color: #c62828;
+    border-left: 4px solid var(--danger-color);
+}
+
+/* ===== STYLES DES MODALS ===== */
+
+.modal-content {
+    border-radius: 10px;
+    border: none;
+    box-shadow: var(--shadow-lg);
+}
+
+.modal-header {
+    border-bottom: 2px solid var(--light-color);
+    padding: 1.5rem;
+}
+
+.modal-title {
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+/* ===== STYLES DES DROPDOWNS ===== */
+
+.dropdown-menu {
+    border: none;
+    box-shadow: var(--shadow);
+    border-radius: 8px;
+}
+
+.dropdown-item {
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background-color: var(--light-color);
+    transform: translateX(5px);
+}
+
+.dropdown-item.text-danger:hover {
+    background-color: #ffebee;
+    color: var(--danger-color) !important;
+}
+
+/* ===== STYLES POUR LES TÂCHES EN RETARD ===== */
+
+.task-overdue {
+    background-color: #ffebee !important;
+    border-color: var(--danger-color) !important;
+}
+
+.task-overdue .card-header {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+/* ===== STYLES DES BADGES ===== */
+
+.badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+}
+
+/* ===== ANIMATIONS ET TRANSITIONS ===== */
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease;
+}
+
+.slide-in {
+    animation: slideIn 0.3s ease;
+}
+
+/* ===== LOADING SPINNERS ===== */
+
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* ===== STYLES RESPONSIFS ===== */
+
+@media (max-width: 768px) {
+    .task-card {
+        margin-bottom: 1rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .btn {
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+    
+    .modal-dialog {
+        margin: 1rem;
+    }
+    
+    .container {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .col-md-3, .col-md-6 {
+        margin-bottom: 1rem;
+    }
+    
+    .d-flex.justify-content-between {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .btn-group {
+        width: 100%;
+    }
+    
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+}
+
+/* ===== STYLES D'IMPRESSION ===== */
+
+@media print {
+    .navbar, .btn, .dropdown, .card-footer {
+        display: none !important;
+    }
+    
+    .card {
+        border: 1px solid #000 !important;
+        box-shadow: none !important;
+    }
+    
+    .card-header {
+        background-color: #f8f9fa !important;
+        color: #000 !important;
+    }
+    
+    body {
+        background-color: white !important;
+    }
+}
+
+/* ===== DARK MODE (OPTIONNEL) ===== */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bs-body-bg: #1a1a1a;
+        --bs-body-color: #ffffff;
+        --bs-card-bg: #2d2d2d;
+    }
+    
+    .card {
+        background-color: var(--bs-card-bg);
+        color: var(--bs-body-color);
+    }
+    
+    .form-control {
+        background-color: #3d3d3d;
+        border-color: #555;
+        color: #ffffff;
+    }
+    
+    .form-control:focus {
+        background-color: #3d3d3d;
+        border-color: var(--primary-color);
+        color: #ffffff;
+    }
+}
+
+/* ===== STYLES UTILITAIRES ===== */
+
+.text-truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.text-truncate-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.border-start-primary {
+    border-left: 4px solid var(--primary-color) !important;
+}
+
+.border-start-success {
+    border-left: 4px solid var(--success-color) !important;
+}
+
+.border-start-warning {
+    border-left: 4px solid var(--warning-color) !important;
+}
+
+.border-start-danger {
+    border-left: 4px solid var(--danger-color) !important;
+}
+
+/* ===== STYLES POUR LES INSIGHTS IA ===== */
+
+.insight-text {
+    font-family: 'Georgia', serif;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #2c3e50;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 1.5rem;
+    border-radius: 10px;
+    border-left: 5px solid var(--info-color);
+    position: relative;
+}
+
+.insight-text::before {
+    content: '"';
+    font-size: 4rem;
+    color: var(--info-color);
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    opacity: 0.3;
+}
+
+/* ===== STYLES POUR LES STATISTIQUES VISUELLES ===== */
+
+.stats-card {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #0056b3 100%);
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.stats-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.stats-card:hover::before {
+    opacity: 1;
+}
+
+/* ===== STYLES POUR LE FOOTER ===== */
+
+footer {
+    margin-top: auto;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+footer p {
+    margin: 0;
+    font-weight: 500;
+}
+
+/* ===== STYLES CUSTOM POUR LES FORMULAIRES ===== */
+
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.form-check-input:checked {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+}
+
+/* ===== STYLES POUR LES TOOLTIPS ===== */
+
+.tooltip-inner {
+    background-color: var(--dark-color);
+    color: white;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    max-width: 200px;
+}
+
+/* ===== CLASSES UTILITAIRES PERSONNALISÉES ===== */
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.transition-all {
+    transition: all 0.3s ease;
+}
+
+.shadow-hover:hover {
+    box-shadow: var(--shadow) !important;
+}
+
+.border-radius-lg {
+    border-radius: 15px !important;
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #0056b3 100%);
+}
+
+.bg-gradient-success {
+    background: linear-gradient(135deg, var(--success-color) 0%, #1e7e34 100%);
+}
+
+.bg-gradient-warning {
+    background: linear-gradient(135deg, var(--warning-color) 0%, #e0a800 100%);
+}
+
+.bg-gradient-danger {
+    background: linear-gradient(135deg, var(--danger-color) 0%, #bd2130 100%);
+}
+
+/* Placeholder sur fond sombre */
+.bg-dark ::placeholder,
+.bg-gradient-primary ::placeholder,
+.bg-gradient-success ::placeholder,
+.bg-gradient-warning ::placeholder,
+.bg-gradient-danger ::placeholder,
+.card.bg-primary ::placeholder,
+.card.bg-success ::placeholder,
+.card.bg-warning ::placeholder,
+.card.bg-info ::placeholder,
+.card.bg-danger ::placeholder,
+footer ::placeholder,
+.navbar ::placeholder,
+.modal-content ::placeholder,
+.modal-header ::placeholder,
+.form-control.bg-dark::placeholder,
+.form-control.bg-gradient-primary::placeholder,
+.form-control.bg-gradient-success::placeholder,
+.form-control.bg-gradient-warning::placeholder,
+.form-control.bg-gradient-danger::placeholder {
+    color: #fff !important;
+    opacity: 1;
+}
+
+/* Placeholder universel sur fond sombre */
+input::placeholder,
+textarea::placeholder,
+.form-control::placeholder {
+    color: #fff !important;
+    opacity: 1;
+}
+
+@media (prefers-color-scheme: dark) {
+    input::placeholder,
+    textarea::placeholder,
+    .form-control::placeholder {
+        color: #fff !important;
+        opacity: 1;
+    }
+}

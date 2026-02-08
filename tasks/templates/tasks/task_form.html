@@ -1,0 +1,168 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}
+    {% if object %}Modifier la tâche{% else %}Nouvelle tâche{% endif %} - Gestionnaire de Tâches IA
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">
+                    <i class="fas fa-{% if object %}edit{% else %}plus{% endif %} me-2"></i>
+                    {% if object %}Modifier la tâche{% else %}Créer une nouvelle tâche{% endif %}
+                </h4>
+            </div>
+            
+            <div class="card-body">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    
+                    <!-- Titre -->
+                    <div class="mb-3">
+                        <label for="{{ form.title.id_for_label }}" class="form-label">
+                            {{ form.title.label }}
+                            <span class="text-danger">*</span>
+                        </label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.title.errors.0 }}
+                            </div>
+                        {% endif %}
+                        {% if form.title.help_text %}
+                            <div class="form-text">{{ form.title.help_text }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Description -->
+                    <div class="mb-3">
+                        <label for="{{ form.description.id_for_label }}" class="form-label">
+                            {{ form.description.label }}
+                        </label>
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.description.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Statut et Priorité -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ form.status.id_for_label }}" class="form-label">
+                                    {{ form.status.label }}
+                                </label>
+                                {{ form.status }}
+                                {% if form.status.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.status.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ form.priority.id_for_label }}" class="form-label">
+                                    {{ form.priority.label }}
+                                </label>
+                                {{ form.priority }}
+                                {% if form.priority.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.priority.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Date d'échéance -->
+                    <div class="mb-3">
+                        <label for="{{ form.due_date.id_for_label }}" class="form-label">
+                            {{ form.due_date.label }}
+                        </label>
+                        {{ form.due_date }}
+                        {% if form.due_date.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.due_date.errors.0 }}
+                            </div>
+                        {% endif %}
+                        {% if form.due_date.help_text %}
+                            <div class="form-text">{{ form.due_date.help_text }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Boutons d'action -->
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'tasks:task_list' %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-1"></i>Retour
+                        </a>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i>
+                            {% if object %}Modifier{% else %}Créer{% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Conseils d'utilisation -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h6 class="card-title mb-0">
+                    <i class="fas fa-lightbulb me-2"></i>Conseils
+                </h6>
+            </div>
+            <div class="card-body">
+                <ul class="mb-0">
+                    <li><strong>Titre :</strong> Soyez précis et concis (ex: "Appeler le client X")</li>
+                    <li><strong>Description :</strong> Ajoutez des détails pour vous rappeler du contexte</li>
+                    <li><strong>Priorité :</strong> Urgente = à faire aujourd'hui, Haute = cette semaine</li>
+                    <li><strong>Date d'échéance :</strong> Aide l'IA à prioriser vos tâches</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-focus sur le premier champ
+    const firstInput = document.querySelector('input[type="text"]');
+    if (firstInput) {
+        firstInput.focus();
+    }
+    
+    // Validation en temps réel du titre
+    const titleInput = document.getElementById('{{ form.title.id_for_label }}');
+    if (titleInput) {
+        titleInput.addEventListener('input', function() {
+            const value = this.value.trim();
+            const feedback = this.parentNode.querySelector('.invalid-feedback');
+            
+            if (value.length < 3 && value.length > 0) {
+                this.classList.add('is-invalid');
+                if (!feedback) {
+                    const div = document.createElement('div');
+                    div.className = 'invalid-feedback d-block';
+                    div.textContent = 'Le titre doit contenir au moins 3 caractères.';
+                    this.parentNode.appendChild(div);
+                }
+            } else {
+                this.classList.remove('is-invalid');
+                if (feedback) {
+                    feedback.remove();
+                }
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,150 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}Insights IA - Gestionnaire de Tâches IA{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">
+                    <i class="fas fa-brain me-2"></i>
+                    Analyse Intelligente de vos Tâches
+                </h4>
+            </div>
+            
+            <div class="card-body">
+                {% if insights %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Analyse générée le :</strong> {{ insights.generated_at }}
+                        <br>
+                        <strong>Basée sur :</strong> {{ tasks_count }} tâche{{ tasks_count|pluralize }}
+                    </div>
+                    
+                    <!-- Statistiques visuelles -->
+                    {% if insights.stats %}
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <div class="card bg-primary text-white">
+                                    <div class="card-body text-center">
+                                        <h3 class="mb-0">{{ insights.stats.total }}</h3>
+                                        <small>Total des tâches</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-warning text-white">
+                                    <div class="card-body text-center">
+                                        <h3 class="mb-0">{{ insights.stats.à_faire }}</h3>
+                                        <small>À faire</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-info text-white">
+                                    <div class="card-body text-center">
+                                        <h3 class="mb-0">{{ insights.stats.en_cours }}</h3>
+                                        <small>En cours</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-success text-white">
+                                    <div class="card-body text-center">
+                                        <h3 class="mb-0">{{ insights.stats.terminées }}</h3>
+                                        <small>Terminées</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Analyse IA -->
+                    <div class="card bg-light">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-robot me-2"></i>
+                                Analyse de l'Intelligence Artificielle
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="insights-analysis">
+                                {{ insights.analysis|linebreaks }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Actions recommandées -->
+                    <div class="mt-4">
+                        <h5>Actions recommandées</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card border-success">
+                                    <div class="card-body">
+                                        <h6 class="card-title text-success">
+                                            <i class="fas fa-lightbulb me-1"></i>
+                                            Suggestions d'amélioration
+                                        </h6>
+                                        <p class="card-text">
+                                            Générez une nouvelle analyse après avoir ajouté ou modifié des tâches
+                                            pour obtenir des conseils actualisés.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card border-info">
+                                    <div class="card-body">
+                                        <h6 class="card-title text-info">
+                                            <i class="fas fa-sync me-1"></i>
+                                            Mise à jour
+                                        </h6>
+                                        <p class="card-text">
+                                            Cette analyse est basée sur l'état actuel de vos tâches.
+                                            Actualisez pour obtenir de nouveaux insights.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                {% else %}
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Aucune analyse disponible pour le moment.
+                    </div>
+                {% endif %}
+                
+                <!-- Actions -->
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="{% url 'tasks:task_list' %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-1"></i>Retour aux tâches
+                    </a>
+                    
+                    <div>
+                        <button id="refresh-insights-btn" class="btn btn-primary">
+                            <i class="fas fa-sync me-1"></i>Actualiser l'analyse
+                        </button>
+                        
+                        <a href="{% url 'tasks:task_create' %}" class="btn btn-success ms-2">
+                            <i class="fas fa-plus me-1"></i>Nouvelle tâche
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('refresh-insights-btn').addEventListener('click', function() {
+        window.location.reload();
+    });
+});
+</script>
+{% endblock %}

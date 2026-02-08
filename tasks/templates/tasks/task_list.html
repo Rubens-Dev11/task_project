@@ -1,0 +1,384 @@
+{% extends 'tasks/base.html' %}
+{% load static %}
+
+{% block title %}Mes Tâches - Gestionnaire de Tâches IA{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Statistiques -->
+    <div class="col-12 mb-4">
+        <div class="row g-3">
+            <div class="col-md-3">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h5 class="card-title">Total</h5>
+                                <h2 class="mb-0">{{ stats.total }}</h2>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-tasks fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="card bg-warning text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h5 class="card-title">À faire</h5>
+                                <h2 class="mb-0">{{ stats.todo }}</h2>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-clock fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h5 class="card-title">En cours</h5>
+                                <h2 class="mb-0">{{ stats.doing }}</h2>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-spinner fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h5 class="card-title">Terminé</h5>
+                                <h2 class="mb-0">{{ stats.done }}</h2>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-check fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtres et recherche -->
+    <div class="col-12 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-filter me-2"></i>Filtres et Recherche
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="get" class="row g-3">
+                    <div class="col-md-4">
+                        <label for="search" class="form-label">Recherche</label>
+                        <input type="text" class="form-control" id="search" name="search" 
+                               value="{{ current_search }}" placeholder="Rechercher...">
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <label for="status" class="form-label">Statut</label>
+                        <select class="form-control" id="status" name="status">
+                            <option value="">Tous les statuts</option>
+                            <option value="todo" {% if current_status == 'todo' %}selected{% endif %}>À faire</option>
+                            <option value="doing" {% if current_status == 'doing' %}selected{% endif %}>En cours</option>
+                            <option value="done" {% if current_status == 'done' %}selected{% endif %}>Terminé</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <label for="priority" class="form-label">Priorité</label>
+                        <select class="form-control" id="priority" name="priority">
+                            <option value="">Toutes les priorités</option>
+                            <option value="low" {% if current_priority == 'low' %}selected{% endif %}>Basse</option>
+                            <option value="medium" {% if current_priority == 'medium' %}selected{% endif %}>Moyenne</option>
+                            <option value="high" {% if current_priority == 'high' %}selected{% endif %}>Haute</option>
+                            <option value="urgent" {% if current_priority == 'urgent' %}selected{% endif %}>Urgente</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-2">
+                        <label class="form-label">&nbsp;</label>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search me-1"></i>Filtrer
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions rapides -->
+    <div class="col-12 mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>Mes Tâches</h2>
+            <div>
+                <a href="{% url 'tasks:task_create' %}" class="btn btn-success">
+                    <i class="fas fa-plus me-1"></i>Nouvelle Tâche
+                </a>
+                <button id="get-insights-btn" class="btn btn-info ms-2">
+                    <i class="fas fa-brain me-1"></i>Insights IA
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Liste des tâches -->
+    <div class="col-12">
+        {% if tasks %}
+            <div class="row">
+                {% for task in tasks %}
+                    <div class="col-lg-6 mb-3">
+                        <div class="card h-100 task-card {{ task.get_priority_class }}">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="badge bg-secondary">{{ task.get_status_display }}</span>
+                                    <span class="badge badge-priority-{{ task.priority }}">{{ task.get_priority_display }}</span>
+                                </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-secondary" type="button" 
+                                            data-bs-toggle="dropdown">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item" href="{% url 'tasks:task_detail' task.pk %}">
+                                                <i class="fas fa-eye me-1"></i>Voir
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{% url 'tasks:task_edit' task.pk %}">
+                                                <i class="fas fa-edit me-1"></i>Modifier
+                                            </a>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <a class="dropdown-item text-danger" 
+                                               href="{% url 'tasks:task_delete' task.pk %}">
+                                                <i class="fas fa-trash me-1"></i>Supprimer
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="card-body">
+                                <h5 class="card-title">{{ task.title }}</h5>
+                                
+                                {% if task.description %}
+                                    <p class="card-text">{{ task.description|truncatewords:20 }}</p>
+                                {% endif %}
+                                
+                                <div class="task-meta">
+                                    <small class="text-muted">
+                                        <i class="fas fa-calendar me-1"></i>
+                                        Créée le {{ task.created_at|date:"d/m/Y à H:i" }}
+                                    </small>
+                                    
+                                    {% if task.due_date %}
+                                        <br>
+                                        <small class="{% if task.is_overdue %}text-danger{% else %}text-info{% endif %}">
+                                            <i class="fas fa-clock me-1"></i>
+                                            Échéance : {{ task.due_date|date:"d/m/Y à H:i" }}
+                                            {% if task.is_overdue %}(En retard){% endif %}
+                                        </small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="card-footer">
+                                <button class="btn btn-sm btn-outline-primary toggle-status-btn" 
+                                        data-task-id="{{ task.pk }}">
+                                    <i class="fas fa-sync me-1"></i>Changer statut
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if is_paginated %}
+                <nav aria-label="Navigation des tâches">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1">Première</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Précédente</a>
+                            </li>
+                        {% endif %}
+
+                        <li class="page-item active">
+                            <span class="page-link">
+                                Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
+                            </span>
+                        </li>
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Suivante</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Dernière</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-tasks fa-3x text-muted mb-3"></i>
+                <h4 class="text-muted">Aucune tâche trouvée</h4>
+                <p class="text-muted">Commencez par créer votre première tâche !</p>
+                <a href="{% url 'tasks:task_create' %}" class="btn btn-primary">
+                    <i class="fas fa-plus me-1"></i>Créer ma première tâche
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Modal pour les insights IA -->
+<div class="modal fade" id="insightsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-brain me-2"></i>Insights IA
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="insights-loading" class="text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Génération en cours...</span>
+                    </div>
+                    <p class="mt-2">L'IA analyse vos tâches...</p>
+                </div>
+                <div id="insights-content" class="d-none"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Gestion du changement de statut
+    document.querySelectorAll('.toggle-status-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const taskId = this.dataset.taskId;
+            toggleTaskStatus(taskId);
+        });
+    });
+
+    // Gestion des insights IA
+    document.getElementById('get-insights-btn').addEventListener('click', function() {
+        showInsightsModal();
+    });
+});
+
+function toggleTaskStatus(taskId) {
+    fetch(`/task/${taskId}/toggle-status/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload(); // Recharger la page pour voir les changements
+        } else {
+            alert('Erreur lors du changement de statut');
+        }
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+        alert('Erreur lors du changement de statut');
+    });
+}
+
+function showInsightsModal() {
+    const modal = new bootstrap.Modal(document.getElementById('insightsModal'));
+    const loadingDiv = document.getElementById('insights-loading');
+    const contentDiv = document.getElementById('insights-content');
+    
+    // Réinitialiser le modal
+    loadingDiv.classList.remove('d-none');
+    contentDiv.classList.add('d-none');
+    
+    modal.show();
+    
+    // Appel API pour les insights
+    fetch('/api/insights/')
+        .then(response => response.json())
+        .then(data => {
+            loadingDiv.classList.add('d-none');
+            
+            if (data.success) {
+                contentDiv.innerHTML = `
+                    <div class="alert alert-info">
+                        <strong>Analyse générée le :</strong> ${data.insights.generated_at}
+                    </div>
+                    <div class="insights-content">
+                        ${data.insights.analysis.replace(/\n/g, '<br>')}
+                    </div>
+                `;
+                contentDiv.classList.remove('d-none');
+            } else {
+                contentDiv.innerHTML = `
+                    <div class="alert alert-danger">
+                        Erreur : ${data.message || data.error}
+                    </div>
+                `;
+                contentDiv.classList.remove('d-none');
+            }
+        })
+        .catch(error => {
+            loadingDiv.classList.add('d-none');
+            contentDiv.innerHTML = `
+                <div class="alert alert-danger">
+                    Erreur de connexion. Vérifiez qu'Ollama est démarré.
+                </div>
+            `;
+            contentDiv.classList.remove('d-none');
+        });
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+{% endblock %}
